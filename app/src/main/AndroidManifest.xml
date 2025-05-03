@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="just.trust.me" >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
-        android:allowBackup="true"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:supportsRtl="true">
+
+        <!-- This is required or the app won't install -->
+        <activity
+            android:name="io.github.xposed.justtrustme.xposed.SSLUnpinner"
+            android:exported="false"
+            tools:ignore="Instantiatable" />
         <meta-data
             android:name="xposedmodule"
-            android:value="true"/>
-        <meta-data
-            android:name="xposedminversion"
-            android:value="30"/>
+            android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="Kills SSL certificate validation"/>
+            android:value="justtrustme" />
+        <meta-data
+            android:name="xposedsharedprefs"
+            android:value="true" />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="93" />
+        <meta-data
+            android:name="xposedscope"
+            android:resource="@array/module_scope" />
     </application>
+
 </manifest>

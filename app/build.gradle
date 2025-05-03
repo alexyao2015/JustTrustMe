@@ -1,26 +1,65 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
 
 android {
-    compileSdkVersion 30
+    compileSdk 35
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "${defaultConfig.applicationId}_${defaultConfig.versionName}_${variant.buildType.name}.apk"
+        }
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("${rootDir}/keystore.key")
+            storePassword System.getenv("ANDROID_STORE_PASSWORD")
+            keyAlias "key0"
+            keyPassword System.getenv("ANDROID_KEY_PASSWORD")
+        }
+    }
+
     defaultConfig {
-        applicationId 'just.trust.me'
-        minSdkVersion 16
-        targetSdkVersion 30
-        versionCode 3
-        versionName '.3'
+        applicationId "io.github.xposed.justtrustme"
+        minSdk 24
+        targetSdk 35
+        versionCode 1
+        versionName "0.0.1"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (System.getenv("ANDROID_STORE_PASSWORD")) {
+                signingConfig signingConfigs.release
+            }
         }
     }
-    productFlavors {
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lint {
+        checkReleaseBuilds false
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+    namespace 'io.github.xposed.justtrustme'
+    buildFeatures {
+        buildConfig true
     }
     useLibrary 'org.apache.http.legacy'
 }
 
 dependencies {
-    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'org.apache.httpcomponents:httpcore:4.4.2'
+
+    // Xposed API
+    compileOnly files('libs/api-82.jar')
+    compileOnly files('libs/api-82-sources.jar')
 }

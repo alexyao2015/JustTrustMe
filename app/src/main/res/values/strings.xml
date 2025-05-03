@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="app_name">JustTrustMe</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_name">Just Trust Me</string>
+    <string-array name="module_scope">
+        <item>system</item>
+    </string-array>
 </resources>
